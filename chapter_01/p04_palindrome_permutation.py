@@ -58,6 +58,24 @@ def is_palindrome_permutation_pythonic(phrase):
     return sum(val % 2 for val in counter.values()) <= 1
 
 
+def brandon(s: str) -> bool:
+    if len(s) < 2:
+        return True
+    freq = {}
+    oddFreqCount = 0
+    for c in s:
+        cl = c.lower()
+        if cl not in string.ascii_lowercase:
+            continue
+        if cl in freq:
+            freq[cl] = not freq[cl]
+            oddFreqCount += 1 if freq[cl] else -1
+        else:
+            freq[cl] = True
+            oddFreqCount += 1
+    return oddFreqCount <= 1
+
+
 class Test(unittest.TestCase):
     test_cases = [
         ("aba", True),
@@ -79,12 +97,13 @@ class Test(unittest.TestCase):
         is_palindrome_permutation,
         is_palindrome_bit_vector,
         is_palindrome_permutation_pythonic,
+        brandon
     ]
 
     def test_pal_perm(self):
         for f in self.testable_functions:
             for [test_string, expected] in self.test_cases:
-                assert f(test_string) == expected
+                assert f(test_string) == expected, "Failed on {}. Expected: {}".format(test_string, expected)
 
 
 if __name__ == "__main__":
