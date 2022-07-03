@@ -39,6 +39,43 @@ def one_edit_insert(s1, s2):
     return True
 
 
+def oneAwayBrandon(a: str, b: str) -> bool:
+    n, m = len(a), len(b)
+    if n <= 1 and m <= 1:
+        return True
+    if abs(n - m) > 1:
+        return False
+    if n > m:
+        return oneAwayBrandon(b, a)
+    edited = False
+    i = j = 0
+    while i < n and j < m:
+        if a[i] == b[j]:
+            i += 1
+            j += 1
+        else:
+            if edited:
+                return False
+            if i == n - 1 or j == m - 1:
+                if n != m:
+                    return False
+            else:
+                if a[i+1] == b[j+1]:
+                    edited = True
+                    i += 1
+                    j += 1
+                # unnecessary due to line 49
+                # elif a[i+1] == b[j]:
+                #     edited = True
+                #     i += 1
+                elif a[i] == b[j+1]:
+                    edited = True
+                    j += 1
+                else:
+                    return False
+    return True
+
+
 class Test(unittest.TestCase):
     test_cases = [
         # no changes
@@ -70,7 +107,7 @@ class Test(unittest.TestCase):
         ("ale", "elas", False),
     ]
 
-    testable_functions = [are_one_edit_different]
+    testable_functions = [are_one_edit_different, oneAwayBrandon]
 
     def test_one_away(self):
 
